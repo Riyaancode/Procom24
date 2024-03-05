@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  * {
+    @apply box-border;
+  }
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+  .flex-between {
+    @apply flex items-center justify-between;
+  }
+}
+.header-shadow {
+  -webkit-box-shadow: 0 2px 12px 0 rgba(36, 50, 66, 0.075);
+  box-shadow: 0 2px 12px 0 rgba(36, 50, 66, 0.075);
+}
