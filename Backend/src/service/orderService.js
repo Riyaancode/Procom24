@@ -3,17 +3,57 @@ const QRCode = require('qrcode');
 const { logger } = require('../config/logger');
 const Customer = require('../models/Customer');
 const Order = require('../models/Order');
+const { formatForQRMapping, generateQRCode } = require('../utils/qr');
+const { emailRegex } = require('../utils');
 
 const OrderService = {
 
     createOrder: async (userName, email, paymentAmount, customerAccountNumber, merchantAccountNumber, bankName, paymentPurpose, status) => {
         try {
-            console.log("order service")
             const customer = await Customer.findOne({ userName });
 
             if (!customer) {
-                logger.error('Customer with this username not found');
-                return res.status(404).json({ error: 'Customer not found' });
+                throw new Error('Customer with this username not found');
+            }
+
+            if (!emailRegex.test(email)) {
+                throw new Error('Invalid email format');
+              }
+
+            const validCustomerPrefixes = ['02', '04', '15', '27'];
+            const customerPrefix = customerAccountNumber.slice(0, 2);
+            const customerAccountNumberLength = customerAccountNumber.length;
+
+            if (!validCustomerPrefixes.includes(customerPrefix)) {
+                throw new Error('Invalid customer account number prefix, it should be 02, 04, 15 or 27');
+            }
+
+            // 18 total length with tagId
+            if ((customerPrefix === '02' || customerPrefix === '04' || customerPrefix === '15') && customerAccountNumberLength !== 18) {
+                throw new Error(`Invalid length for customer's Visa | Mastercard | Unionpay account number`);
+            }
+
+            // 44 total length with tagId
+            if (customerPrefix === '27' && customerAccountNumberLength !== 44) {
+                throw new Error(`Invalid length for customer's Raast account number`);
+            }
+
+            const validMerchantPrefixes = ['02', '04', '15', '27'];
+            const merchantPrefix = merchantAccountNumber.slice(0, 2);
+            const merchantAccountNumberLength = merchantAccountNumber.length;
+
+            if (!validMerchantPrefixes.includes(merchantPrefix)) {
+                throw new Error('Invalid merchant account number prefix,it should be 02, 04, 15 or 27');
+            }
+
+            // 18 total length with tagId
+            if ((merchantPrefix === '02' || merchantPrefix === '04' || merchantPrefix === '15') && merchantAccountNumberLength !== 18) {
+                throw new Error(`Invalid length for merchant's 's Visa | Mastercard | Unionpay account number`);
+            }
+
+            // 44 total length with tagId
+            if (merchantPrefix === '27' && merchantAccountNumberLength !== 44) {
+                throw new Error(`Invalid length for merchant's Raast account number`);
             }
 
             const orderDetails = {
@@ -28,9 +68,9 @@ const OrderService = {
                 customer: customer._id
             };
 
-            const orderDetailsJson = JSON.stringify(orderDetails);
+            const qrData = formatForQRMapping(orderDetails);
+            const qrImage = await generateQRCode(qrData);
 
-            const qrImage = await QRCode.toDataURL(orderDetailsJson);
 
             const newOrder = new Order({
                 ...orderDetails,
@@ -43,6 +83,7 @@ const OrderService = {
             throw error;
         }
     },
+
 
 
     getOrders: async () => {
@@ -85,7 +126,7 @@ const OrderService = {
 
             if (!order) {
                 logger.error('Order not found');
-                return res.status(404).json({ error: 'Order not found' });
+                throw new Error('Order not found');
             }
 
             return order;

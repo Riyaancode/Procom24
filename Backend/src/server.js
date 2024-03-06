@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+
 const customerRoutes = require('./routes/customerRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const { connectDB } = require('./config');
@@ -13,6 +15,7 @@ connectDB();
 
 app.use(bodyParser.json());
 app.use(loggerMiddleware);
+app.use(cors());
 
 app.use('/api/auth', customerRoutes)
 app.use('/api/orders', orderRoutes);
