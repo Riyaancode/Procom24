@@ -20,6 +20,10 @@ app.use(cors());
 app.use('/api/auth', customerRoutes)
 app.use('/api/orders', orderRoutes);
 
+app.get('/', (req, res) => {
+    res.json({ message: 'Welcome to Procom24' });
+})
+
 app.listen(PORT, () => {
     logger.info(`Server is running on port ${PORT}`);
 });
