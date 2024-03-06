@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { OrderStatus } = require('../utils');
 
 const OrderSchema = new mongoose.Schema({
+    customer: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer' },
     userName: {
         type: String,
         required: true
@@ -32,7 +33,7 @@ const OrderSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: Object.values(OrderStatus), 
+        enum: Object.values(OrderStatus),
         required: true,
         default: OrderStatus.PENDING
     },

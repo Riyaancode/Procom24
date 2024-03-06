@@ -1,11 +1,21 @@
-const { logger } = require('../config/logger');
-const Order = require('../models/Order');
 const QRCode = require('qrcode');
+
+const { logger } = require('../config/logger');
+const Customer = require('../models/Customer');
+const Order = require('../models/Order');
 
 const OrderService = {
 
     createOrder: async (userName, email, paymentAmount, customerAccountNumber, merchantAccountNumber, bankName, paymentPurpose, status) => {
         try {
+            console.log("order service")
+            const customer = await Customer.findOne({ userName });
+
+            if (!customer) {
+                logger.error('Customer with this username not found');
+                return res.status(404).json({ error: 'Customer not found' });
+            }
+
             const orderDetails = {
                 userName,
                 email,
@@ -14,7 +24,8 @@ const OrderService = {
                 merchantAccountNumber,
                 bankName,
                 paymentPurpose,
-                status
+                status,
+                customer: customer._id
             };
 
             const orderDetailsJson = JSON.stringify(orderDetails);
@@ -22,14 +33,7 @@ const OrderService = {
             const qrImage = await QRCode.toDataURL(orderDetailsJson);
 
             const newOrder = new Order({
-                userName,
-                email,
-                paymentAmount,
-                customerAccountNumber,
-                merchantAccountNumber,
-                bankName,
-                paymentPurpose,
-                status,
+                ...orderDetails,
                 qrCode: qrImage
             });
 
@@ -40,9 +44,19 @@ const OrderService = {
         }
     },
 
+
     getOrders: async () => {
         try {
             const orders = await Order.find();
+            return orders;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    getOrderByUserId: async (userId) => {
+        try {
+            const orders = await Order.find({ customer: userId });
             return orders;
         } catch (error) {
             throw error;
@@ -70,7 +84,8 @@ const OrderService = {
             }, { new: true });
 
             if (!order) {
-                throw new Error('Order not found');
+                logger.error('Order not found');
+                return res.status(404).json({ error: 'Order not found' });
             }
 
             return order;

@@ -27,7 +27,8 @@ const CustomerSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now
-    }
+    },
+    orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }]
 });
 
 const Customer = mongoose.models.Customer || mongoose.model('Customer', CustomerSchema);

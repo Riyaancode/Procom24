@@ -22,7 +22,7 @@ module.exports.createOrder = async (req, res) => {
         res.json({ qrCode, ...orderDetails });
         logger.info('Order Created Successfully!');
     } catch (error) {
-        logger.error('Error during registration:', error);
+        logger.error('Error during order creation:', error);
         res.status(500).json({ error: error.message });
     }
 }
@@ -35,6 +35,18 @@ module.exports.getAllOrders = async (req, res) => {
         logger.error('Error getting orders:', error);
         res.status(500).json({ error: error.message });
     }
+}
+
+module.exports.getOrdersByUserId = async (req, res) => {
+    const { userId } = req.params;
+    try {
+        const orders = await OrderService.getOrderByUserId(userId);
+        res.json(orders);
+    } catch (error) {
+        logger.error('Error getting orders:', error);
+        res.status(500).json({ error: error.message });
+    }
+
 }
 
 module.exports.getOrderById = async (req, res) => {
