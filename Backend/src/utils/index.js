@@ -37,5 +37,11 @@ const verifyToken = (token) => {
     }
 };
 
+const OrderStatus = {
+    PENDING: 'pending',
+    SUCCEEDED: 'succeeded',
+    REJECTED: 'rejected',
+  };
 
-module.exports = { hashPassword, comparePasswords, generateToken, verifyToken, passwordRegex, emailRegex };
+
+module.exports = { hashPassword, comparePasswords, generateToken, verifyToken, passwordRegex, emailRegex, OrderStatus };
