@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 
 import {
@@ -33,7 +31,6 @@ type Person = {
   bankName: string;
   paymentPurpose: string;
   status: string;
-  qrCode: string;
 };
 
 const columnHelper = createColumnHelper<Person>();
@@ -70,16 +67,10 @@ const columns = [
     cell: (info) => info.getValue(),
     header: () => "Status",
   }),
-  columnHelper.accessor("qrCode", {
-    cell: (info) => info.getValue(),
-    header: () => "QR Code",
-  }),
 ];
 
-export default function Table() {
-  const [data] = React.useState(() => [...mockData]);
+export default function Table({ data }: { data: Person[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-
   const table = useReactTable({
     data,
     columns,
@@ -150,7 +141,7 @@ export default function Table() {
 
       <div className="flex sm:flex-row flex-col w-full mt-8 pb-10 items-center gap-2 text-xs">
         <div className="sm:mr-auto sm:mb-0 mb-2">
-          <span className="mr-2">Items por página</span>
+          <span className="mr-2">Items per page</span>
           <select
             className="border p-1 rounded w-16 border-gray-200"
             value={table.getState().pagination.pageSize}
@@ -200,7 +191,7 @@ export default function Table() {
               }}
               className="border p-1 rounded w-10"
             />
-            de {table.getPageCount()}
+            of {table.getPageCount()}
           </span>
           <button
             className={`${
