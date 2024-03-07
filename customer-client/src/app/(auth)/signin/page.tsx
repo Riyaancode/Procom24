@@ -1,38 +1,119 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
 
-// import useAuthContext from '@/provider/AuthProvider/useAuth';
 import type { ISignIn } from "@/types/interface";
 
-export default function SignIn() {
-  const { control, handleSubmit } = useForm<ISignIn>({
+const Login = () => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ISignIn>({
     defaultValues: {
-      email: "",
+      username: "",
       password: "",
     },
   });
 
   // const { googleSignin } = useAuthContext();
 
-  const onSubmit = (data: ISignIn) => {
-    console.log(data);
+  const submitHandler = (data: ISignIn) => {
+    console.log("ds", data);
   };
+
   return (
     <main className="w-full flex">
-      <div className="relative flex-1 hidden items-center justify-center h-screen bg-blue-900 lg:flex">
+      <div className="flex-1 flex items-center justify-center h-screen">
+        <div className="w-full max-w-md space-y-8 px-4 bg-white  sm:px-0">
+          <div className="">
+            <div className="mt-5 space-y-2 text-center">
+              <h3 className=" text-2xl font-bold sm:text-3xl">Login</h3>
+              <div className="flex gap-2 justify-center">
+                <p className="text-[#03A9C0] text-2xl font-bold sm:text-3xl">
+                  Customer Portal
+                </p>
+                <p className="text-2xl font-bold sm:text-3xl">Account</p>
+              </div>
+            </div>
+          </div>
+
+          <form className="space-y-5">
+            <Controller
+              control={control}
+              name="username"
+              rules={{
+                required: "*Username is required.",
+              }}
+              render={({ field: { onChange, value, name } }) => (
+                <div>
+                  <label className="font-medium">User name</label>
+                  <input
+                    name={name}
+                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-[#03A9C0] shadow-sm rounded-lg"
+                    onChange={(_value) => onChange(_value)}
+                    value={value}
+                    placeholder="Enter user name"
+                  />
+                </div>
+              )}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="username"
+              render={({ message }) => (
+                <p className="text-red-500">{message}</p>
+              )}
+            />
+            <Controller
+              control={control}
+              name="password"
+              rules={{
+                required: "*Password is required.",
+                pattern: {
+                  value: /^.{8,}$/,
+                  message: "*Password must be at least 8 characters long",
+                },
+              }}
+              render={({ field: { onChange, value, name } }) => (
+                <div>
+                  <label className="font-medium">User name</label>
+                  <input
+                    type="password"
+                    name={name}
+                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-[#03A9C0] shadow-sm rounded-lg relative"
+                    onChange={(_value) => onChange(_value)}
+                    value={value}
+                    placeholder="Enter at lesat 8+ characters"
+                  />
+                </div>
+              )}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="password"
+              render={({ message }) => (
+                <p className="text-red-500">{message}</p>
+              )}
+            />
+            <button
+              onClick={handleSubmit(submitHandler)}
+              className="w-full px-4 py-2 text-white font-medium bg-[#03A9C0] hover:opacity-80 active:bg-blue-600 rounded-lg duration-150"
+            >
+              Sign in
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div className="relative flex-1 hidden items-center justify-center h-screen bg-[#03A9C0] lg:flex">
         <div className="relative z-10 w-full max-w-md">
-          {/* <img
-            src={require("../assets/img/logo-dark.png")}
-            width={90}
-            alt="logo"
-          /> */}
-          <div className=" mt-10 space-y-3">
+          <div className="mt-10 space-y-3">
             <h3 className="text-white text-3xl font-bold">
-              Start growing your business quickly
+              Visual Payment Statistics
             </h3>
             <p className="text-gray-300">
               Create an account and get access to all features for 30-days, No
@@ -79,64 +160,8 @@ export default function SignIn() {
           }}
         ></div>
       </div>
-
-      <div className="flex-1 flex items-center justify-center h-screen">
-        <div className="w-full max-w-md space-y-8 px-4 bg-white text-gray-600 sm:px-0">
-          <div className="">
-            {/* <img
-              src={require("../assets/img/logo.png")}
-              width={80}
-              className="lg:hidden mx-auto"
-              alt="logo"
-            /> */}
-            <div className="mt-5 space-y-2 text-center">
-              <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl">
-                Sign in
-              </h3>
-              <p className="">
-                Don't have an account?{" "}
-                <Link
-                  href={"/signup"}
-                  className="font-medium text-blue-600 hover:text-blue-500"
-                >
-                  Signup
-                </Link>
-              </p>
-            </div>
-          </div>
-
-          <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
-            <div>
-              <label className="font-medium">Email</label>
-              <input
-                type="email"
-                name="email"
-                required
-                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-blue-600 shadow-sm rounded-lg"
-                // onChange={handleInputs}
-                // value={userdata.email}
-              />
-            </div>
-            <div>
-              <label className="font-medium">Password</label>
-              <input
-                type="password"
-                name="password"
-                required
-                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-blue-600 shadow-sm rounded-lg"
-                // onChange={handleInputs}
-                // value={userdata.password}
-              />
-            </div>
-            <button
-              // onClick={signin}
-              className="w-full px-4 py-2 text-white font-medium bg-blue-600 hover:bg-blue-500 active:bg-blue-600 rounded-lg duration-150"
-            >
-              Sign in
-            </button>
-          </form>
-        </div>
-      </div>
     </main>
   );
-}
+};
+
+export default Login;
