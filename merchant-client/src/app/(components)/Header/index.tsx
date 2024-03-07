@@ -7,6 +7,8 @@ import { ProfileCard } from "./ProfileCard";
 import { Drawer } from "./Drawer";
 import { usePathname } from "next/navigation";
 import { HOME } from "@/routes";
+import Logo from '../../../../public/assets/Logo.png'
+import Image from "next/image";
 
 export const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,9 +37,10 @@ export const Header: React.FC = () => {
       >
         <div className="flex container px-0 justify-between items-center">
           <Link href={"/"}>
-            <Typography variant="subheading" className="font-extrabold">
+            <Image src={Logo} alt="Logo" className="h-12 w-32" />
+            {/* <Typography variant="subheading" className="font-extrabold">
               LOGO
-            </Typography>
+            </Typography> */}
           </Link>
           {/* <NavBar /> */}
 

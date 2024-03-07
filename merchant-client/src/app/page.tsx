@@ -11,7 +11,7 @@ export default async function Home() {
       <div className="px-4 bg-[#744FEA] pb-10 md:px-12 md:h-[calc(100vh-96px)] flex-center">
         {/* first section */}
         <div className="flex flex-col md:flex-row w-full mt-28 md:m-20">
-          <div className="md:w-5/12">
+          <div className="md:w-5/12 items-center justify-center flex flex-col">
             <Typography
               variant="heading"
               className="mb-4 !leading-normal text-white"
