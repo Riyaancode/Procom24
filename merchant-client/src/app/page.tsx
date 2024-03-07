@@ -34,11 +34,15 @@ export default async function Home() {
       </div>
       {/* second section */}
       <div className="px-4 pb-10 md:px-12 md:h-[calc(90vh-96px)] flex-center">
-        <div className="flex flex-col md:flex-row w-full mt-28 md:m-20">
+        <div className="flex flex-col items-center md:flex-row w-full mt-28 md:m-20">
           <div className="md:w-6/12">
-            <Image src={MonitorPayment} alt="Monitor Payment Image" />
+            <Image
+              src={MonitorPayment}
+              width={500}
+              alt="Monitor Payment Image"
+            />
           </div>
-          <div className="md:w-5/12">
+          <div className="md:w-5/12 ">
             <p className="text-gray-500 px-2">You can</p>
             <Typography variant="heading" className="mb-4 !leading-normal">
               <span className="text-red-400">Monitor</span> payments
@@ -53,7 +57,7 @@ export default async function Home() {
       </div>
       {/* third section */}
       <div className="px-4 pb-10 md:px-12 md:h-[calc(90vh-96px)] flex-center">
-        <div className="flex flex-col md:flex-row w-full mt-28 md:m-20">
+        <div className="flex flex-col items-center md:flex-row w-full mt-28 md:m-20">
           <div className="md:w-5/12">
             <p className="text-gray-500 px-2">You can</p>
             <Typography variant="heading" className="mb-4 !leading-normal">
@@ -65,8 +69,8 @@ export default async function Home() {
             </p>
             <p className="m-4 text-[#744FEA]">Learn more -{">"}</p>
           </div>
-          <div className="md:w-7/12">
-            <Image src={Manage} alt="Monitor Payment Image" />
+          <div className="md:w-7/12 flex justify-center">
+            <Image src={Manage} width={500} alt="Monitor Payment Image" />
           </div>
         </div>
       </div>
