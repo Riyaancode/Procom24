@@ -5,12 +5,40 @@ export interface IModalProps {
 }
 
 export interface ISignUp {
-  name: string;
+  userName: string;
+  accountNo: string;
   email: string;
+  phoneNo: string;
   password: string;
 }
 
 export interface ISignIn {
-  username: string;
+  email: string;
   password: string;
+}
+
+enum PaymentStatus {
+  PENDING = "pending",
+  SUCCEEDED = "succeeded",
+  REJECTED = "rejected",
+}
+
+export interface IPayment {
+  userName: string;
+  email: string;
+  paymentAmount: number;
+  customerAccountNumber: string;
+  merchantAccountNumber: string;
+  bankName: string;
+  paymentPurpose: string;
+  status: PaymentStatus;
+}
+
+export interface IUser {
+  userName: string;
+  accountNo: string;
+  email: string;
+  phoneNo: string;
+  password: string;
+  orders: [];
 }

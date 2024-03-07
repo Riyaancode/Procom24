@@ -1,4 +1,5 @@
 import { Header } from "../(components)";
+import Sidebar from "../(components)/Sidebar";
 
 export default function RootLayout({
   children,
@@ -8,8 +9,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header />
-        {children}
+        <Sidebar>{children}</Sidebar>
       </body>
     </html>
   );

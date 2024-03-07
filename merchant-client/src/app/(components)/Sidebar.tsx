@@ -29,12 +29,7 @@ const Sidebar: React.FC<ISidebar> = ({ children }) => {
       >
         <div className="flex flex-col justify-between h-full">
           <div className="flex-grow">
-            <div className="px-4 py-6 text-center border-b">
-              <h1 className="text-xl font-bold leading-none">
-                <span className="text-yellow-700">Task Manager</span> App
-              </h1>
-            </div>
-            <div className="p-4">
+            <div className="p-4 mt-20">
               <ul className="space-y-1">
                 {SIDEBAR.map((item) => (
                   <li key={item.routeName}>

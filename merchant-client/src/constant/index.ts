@@ -14,26 +14,26 @@ export const SIDEBAR = [
   {
     name: "Payments",
     icon: BsCurrencyDollar,
-    routeName: "/payments",
+    routeName: "/payment",
   },
   {
     name: "Customers",
     icon: PiUsersThreeBold,
-    routeName: "/customers",
+    routeName: "/",
   },
   {
     name: "Payment Request",
     icon: GrDocumentText,
-    routeName: "/payment-request",
+    routeName: "/",
   },
   {
     name: "Report",
     icon: TfiReceipt,
-    routeName: "/report",
+    routeName: "/",
   },
   {
     name: "Settings",
     icon: LuSettings,
-    routeName: "/settings",
+    routeName: "/",
   },
 ];
