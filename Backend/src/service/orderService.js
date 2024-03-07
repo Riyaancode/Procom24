@@ -68,7 +68,20 @@ const OrderService = {
                 customer: customer._id
             };
 
-            const qrData = formatForQRMapping(orderDetails);
+            const orderDetailsForQR = {
+                userName: userName.replace(userName, '0099887766'),
+                email: email.replace(email, '6655778844'),
+                paymentAmount,
+                customerAccountNumber,
+                merchantAccountNumber,
+                bankName: bankName.replace(bankName, '001122334455667788'),
+                paymentPurpose: paymentPurpose.replace(paymentPurpose, '9988776655'),
+                status: status.replace(status, '1122334455'),
+                customer: orderDetails.customer
+            };
+
+
+            const qrData = formatForQRMapping(orderDetailsForQR);
             const qrImage = await generateQRCode(qrData);
 
 
