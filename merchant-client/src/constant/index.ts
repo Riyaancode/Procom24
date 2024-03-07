@@ -19,7 +19,7 @@ export const SIDEBAR = [
   {
     name: "Customers",
     icon: PiUsersThreeBold,
-    routeName: "/",
+    routeName: "/customer",
   },
   {
     name: "Payment Request",

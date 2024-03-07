@@ -52,24 +52,24 @@ export default function Home() {
         </div>
         <div className="w-52 rounded-md mt-8 p-4 bg-yellow-50 border-yellow-700">
           <div className="flex justify-between">
-            <p>All Payments</p>
+            <p>Pending</p>
             <div className="w-8 h-8 flex justify-center items-center rounded-full bg-yellow-600">
               <HiOutlineClock color="white" />
             </div>
           </div>
-          <p className="text-lg">1,380 PKR</p>
+          <p className="text-lg">380 PKR</p>
           <div className="border p-1 rounded-xl text-xs border-yellow-600 w-24">
             <p className="text-center text-yellow-600">234 records</p>
           </div>
         </div>
         <div className="w-52 rounded-md mt-8 p-4 bg-red-50 border-red-700">
           <div className="flex justify-between">
-            <p>All Payments</p>
+            <p>Rejected</p>
             <div className="w-8 h-8 flex justify-center items-center rounded-full bg-red-600">
               <IoCloseOutline color="white" />
             </div>
           </div>
-          <p className="text-lg">1,380 PKR</p>
+          <p className="text-lg">590 PKR</p>
           <div className="border p-1 rounded-xl text-xs border-red-600 w-24">
             <p className="text-center text-red-600">234 records</p>
           </div>
