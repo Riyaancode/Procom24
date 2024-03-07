@@ -14,37 +14,89 @@ import {
   LinearScale,
   BarElement,
 } from "chart.js";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 ChartJS.register(CategoryScale, LinearScale, BarElement);
 
-const data = {
-  labels: ["Pending", "Rejected", "Completed"],
-  datasets: [
-    {
-      data: [300, 50, 100],
-      backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-      hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-    },
-  ],
-};
+export default function Home() {
 
-const data2 = {
-  labels: ["January", "February", "March", "April", "May", "June", "July"],
-  datasets: [
-    {
-      label: "My First dataset",
-      backgroundColor: "#36A2EB",
-      borderColor: "#36A2EB",
-      borderWidth: 1,
-      hoverBackgroundColor: "#36A2EB",
-      hoverBorderColor: "#36A2EB",
-      data: [65, 59, 80, 81, 56, 55, 40],
-    },
-  ],
-};
+  const [usersData, setUsersData] = useState([])
 
-export default async function Home() {
+  useEffect(() => {
+    const fetchData = () => {
+      const config = {
+        headers: {
+          'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWU4Y2UyN2VlY2E2Njc1OGJiMDcyZWEiLCJ1c2VyRW1haWwiOiJtYmFiYXJ3YXNlZW0rMUBnbWFpbC5jb20iLCJ1c2VyTmFtZSI6IlVzZXJObzEiLCJhY2NvdW50Tm8iOiIxMjM0NTY3ODkwIiwicGhvbmVObyI6IjAzMTExMTExMTExIiwiaWF0IjoxNzA5NzU2NTgxLCJleHAiOjE3MDk3NjAxODF9.SIG5vOszVZdGeeFCAGTSa-XK6XzJ-jVuyPNvRMEjU4w`
+        }
+      };
+      axios.get('https://dev-zindabhag.mooo.com/api/orders/getAll?page=1&limit=50', config)
+        .then(res => {
+          const apiData = res.data;
+          console.log({ apiData });
+          setUsersData(res.data);
+        })
+        .catch(error => {
+          console.log({ error })
+        });
+    }
+
+    fetchData()
+  }, [])
+
+  const getStatusCounts = () => {
+    const statusCounts = {
+      pending: 0,
+      rejected: 0,
+      completed: 0,
+    };
+
+    usersData.forEach((order) => {
+      if (order.status === "pending") {
+        statusCounts.pending++;
+      } else if (order.status === "rejected") {
+        statusCounts.rejected++;
+      } else if (order.status === "succeeded") {
+        statusCounts.completed++;
+      }
+    });
+
+    return [statusCounts.pending, statusCounts.rejected, statusCounts.completed];
+  };
+
+  const getPaymentAmounts = (status) => {
+    return usersData.filter(order => order.status === status).map(order => order.paymentAmount);
+  };
+
+  const statusLabels = ["pending", "succeeded", "rejected"];
+
+  const data = {
+    labels: ["Pending", "Rejected", "Succeeded"],
+    datasets: [
+      {
+        data: getStatusCounts(),
+        backgroundColor: ["#FFCE56", "#FF6384", "#36A2EB"],
+        hoverBackgroundColor: ["#FFCE56", "#FF6384", "#36A2EB"],
+      },
+    ],
+  };
+
+  const data2 = {
+    labels: statusLabels,
+    datasets: [
+      {
+        label: "Payment Amount",
+        backgroundColor: "#36A2EB",
+        borderColor: "#36A2EB",
+        borderWidth: 1,
+        hoverBackgroundColor: "#36A2EB",
+        hoverBorderColor: "#36A2EB",
+        data: statusLabels.map(status => getPaymentAmounts(status)),
+      },
+    ],
+  };
+
   return (
     <main className="">
       <div>
