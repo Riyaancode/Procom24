@@ -5,7 +5,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { ProfileCard } from "./ProfileCard";
 import { Drawer } from "./Drawer";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { HOME } from "@/routes";
 import Logo from '../../../../public/assets/Logo.png'
 import Image from "next/image";
@@ -15,6 +15,7 @@ export const Header: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const path = usePathname();
+  const router = useRouter();
 
   const user = {
     email: "",
@@ -90,9 +91,10 @@ export const Header: React.FC = () => {
             ) : (
               <button
                 type="button"
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="text-white bg-[#744FEA] hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                onClick={() => router.push("/signin")}
               >
-                Get started
+                Login
               </button>
             )}
 

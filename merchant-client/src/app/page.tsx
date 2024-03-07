@@ -1,8 +1,9 @@
 import { Typography } from "@/components/Typography";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import HeroSectionImage from '../../public/assets/HeroSection.png'
-import MonitorPayment from '../../public/assets/MonitorPayment.png'
+import HeroSectionImage from "../../public/assets/HeroSection.png";
+import MonitorPayment from "../../public/assets/MonitorPayment.png";
+import Manage from "../../public/assets/image123.png";
 import Pricing from "./(components)/Pricing";
 
 export default async function Home() {
@@ -64,7 +65,9 @@ export default async function Home() {
             </p>
             <p className="m-4 text-[#744FEA]">Learn more -{">"}</p>
           </div>
-          <div className="md:w-7/12">image</div>
+          <div className="md:w-7/12">
+            <Image src={Manage} alt="Monitor Payment Image" />
+          </div>
         </div>
       </div>
       {/* fourth section */}
@@ -81,7 +84,10 @@ export default async function Home() {
       {/* five section */}
       <div>
         <div className="w-10/12 mx-auto flex flex-col items-center">
-          <Typography variant="heading" className="mb-4 text-center !leading-normal">
+          <Typography
+            variant="heading"
+            className="mb-4 text-center !leading-normal"
+          >
             Pricing
           </Typography>
           <Pricing />
