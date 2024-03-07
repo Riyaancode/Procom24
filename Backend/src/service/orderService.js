@@ -87,10 +87,8 @@ const OrderService = {
 
 
     getOrders: async (page = 1, limit = 10) => {
-        console.log("get all orders service")
         try {
             const skip = (page - 1) * limit;
-            console.log({ skip })
             const orders = await Order.find().skip(skip).limit(limit);
             return orders;
         } catch (error) {
