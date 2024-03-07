@@ -29,13 +29,18 @@ module.exports.createOrder = async (req, res) => {
 
 module.exports.getAllOrders = async (req, res) => {
     try {
-        const orders = await OrderService.getOrders()
+        console.log("get all orders controller")
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        console.log({ page })
+        console.log({ limit })
+        const orders = await OrderService.getOrders(page, limit);
         res.json(orders);
     } catch (error) {
         logger.error('Error getting orders:', error);
         res.status(500).json({ error: error.message });
     }
-}
+};
 
 module.exports.getOrdersByUserId = async (req, res) => {
     const { userId } = req.params;

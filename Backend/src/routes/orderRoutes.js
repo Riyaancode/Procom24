@@ -9,5 +9,4 @@ router.get('/getAll', authenticateUser, getAllOrders);
 router.get('/get/:id', authenticateUser, getOrderById);
 router.put('/update/:id', authenticateUser, updateOrders)
 router.get('/user/:userId', authenticateUser, getOrdersByUserId)
-
 module.exports = router;

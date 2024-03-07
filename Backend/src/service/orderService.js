@@ -18,7 +18,7 @@ const OrderService = {
 
             if (!emailRegex.test(email)) {
                 throw new Error('Invalid email format');
-              }
+            }
 
             const validCustomerPrefixes = ['02', '04', '15', '27'];
             const customerPrefix = customerAccountNumber.slice(0, 2);
@@ -86,9 +86,12 @@ const OrderService = {
 
 
 
-    getOrders: async () => {
+    getOrders: async (page = 1, limit = 10) => {
+        console.log("get all orders service")
         try {
-            const orders = await Order.find();
+            const skip = (page - 1) * limit;
+            console.log({ skip })
+            const orders = await Order.find().skip(skip).limit(limit);
             return orders;
         } catch (error) {
             throw error;
