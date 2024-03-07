@@ -5,12 +5,14 @@ export interface IModalProps {
 }
 
 export interface ISignUp {
-  name: string;
+  username: string;
+  accountNumber: number;
   email: string;
+  phoneNumber: number;
   password: string;
 }
 
 export interface ISignIn {
-  email: string;
+  username: string;
   password: string;
 }

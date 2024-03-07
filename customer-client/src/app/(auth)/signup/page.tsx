@@ -5,14 +5,16 @@ import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 
-import type { ISignIn } from "@/types/interface";
+import type { ISignUp } from "@/types/interface";
 
 const Login = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<ISignIn>({
+  } = useForm<ISignUp>({
     defaultValues: {
       username: "",
       password: "",
@@ -21,7 +23,7 @@ const Login = () => {
 
   // const { googleSignin } = useAuthContext();
 
-  const submitHandler = (data: ISignIn) => {
+  const submitHandler = (data: ISignUp) => {
     console.log("ds", data);
   };
 
@@ -31,7 +33,7 @@ const Login = () => {
         <div className="w-full max-w-md space-y-8 px-4 bg-white  sm:px-0">
           <div className="">
             <div className="mt-5 space-y-2 text-center">
-              <h3 className=" text-2xl font-bold sm:text-3xl">Login</h3>
+              <h3 className=" text-2xl font-bold sm:text-3xl">Create</h3>
               <div className="flex gap-2 justify-center">
                 <p className="text-[#03A9C0] text-2xl font-bold sm:text-3xl">
                   Customer Portal
@@ -68,6 +70,91 @@ const Login = () => {
                 <p className="text-red-500">{message}</p>
               )}
             />
+
+            <Controller
+              control={control}
+              name="accountNumber"
+              rules={{
+                required: "*Account number is required.",
+              }}
+              render={({ field: { onChange, value, name } }) => (
+                <div>
+                  <label className="font-medium">Account Number</label>
+                  <input
+                    type="number"
+                    name={name}
+                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-[#03A9C0] shadow-sm rounded-lg"
+                    onChange={(_value) => onChange(_value)}
+                    value={value}
+                    placeholder="Enter your account number"
+                  />
+                </div>
+              )}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="accountNumber"
+              render={({ message }) => (
+                <p className="text-red-500">{message}</p>
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="email"
+              rules={{
+                required: "*Email address is required.",
+              }}
+              render={({ field: { onChange, value, name } }) => (
+                <div>
+                  <label className="font-medium">Email Address</label>
+                  <input
+                    type="email"
+                    name={name}
+                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-[#03A9C0] shadow-sm rounded-lg"
+                    onChange={(_value) => onChange(_value)}
+                    value={value}
+                    placeholder="abc@gmail.com"
+                  />
+                </div>
+              )}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="email"
+              render={({ message }) => (
+                <p className="text-red-500">{message}</p>
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="phoneNumber"
+              rules={{
+                required: "*Phone number is required.",
+              }}
+              render={({ field: { onChange, value, name } }) => (
+                <div>
+                  <label className="font-medium">Phone Number</label>
+                  <input
+                    type="number"
+                    name={name}
+                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-[#03A9C0] shadow-sm rounded-lg"
+                    onChange={(_value) => onChange(_value)}
+                    value={value}
+                    placeholder="0123456789"
+                  />
+                </div>
+              )}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="phoneNumber"
+              render={({ message }) => (
+                <p className="text-red-500">{message}</p>
+              )}
+            />
+
             <Controller
               control={control}
               name="password"
@@ -80,7 +167,7 @@ const Login = () => {
               }}
               render={({ field: { onChange, value, name } }) => (
                 <div>
-                  <label className="font-medium">User name</label>
+                  <label className="font-medium">Password</label>
                   <input
                     type="password"
                     name={name}
@@ -103,9 +190,14 @@ const Login = () => {
               onClick={handleSubmit(submitHandler)}
               className="w-full px-4 py-2 text-white font-medium bg-[#03A9C0] hover:opacity-80 active:bg-blue-600 rounded-lg duration-150"
             >
-              Sign in
+              Sign up
             </button>
           </form>
+
+          <div className="flex justify-center gap-2">
+            <p>Already have an account</p>
+            <p className="text-[#03A9C0]">Sign in</p>
+          </div>
         </div>
       </div>
 
