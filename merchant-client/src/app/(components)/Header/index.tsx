@@ -1,8 +1,7 @@
 "use client";
 
-import { Typography } from "@/components/Typography";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ProfileCard } from "./ProfileCard";
 import { Drawer } from "./Drawer";
 import { usePathname, useRouter } from "next/navigation";
@@ -10,16 +9,36 @@ import { HOME } from "@/routes";
 import Logo from '../../../../public/assets/Logo.png'
 import Image from "next/image";
 
+
 export const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [userData, setUserData] = useState()
 
   const path = usePathname();
   const router = useRouter();
 
-  const user = {
+  const userEmail = {
     email: "",
   };
+
+  useEffect(() => {
+    const getData = localStorage.getItem('userData');
+    if (getData) {
+      try {
+        const parsedData = JSON.parse(getData);
+        setUserData(parsedData);
+      } catch (error) {
+        console.error("Error parsing stored data:", error);
+      }
+    }
+  }, []);
+
+  let newData
+  if (userData) {
+    newData = JSON.parse(userData)
+  }
+
 
   const handleMobileNav = (isCurrentPath: string) => {
     if (isCurrentPath === HOME) {
@@ -28,6 +47,8 @@ export const Header: React.FC = () => {
       setIsSidebarOpen(!isSidebarOpen);
     }
   };
+
+
 
   return (
     <>
@@ -86,8 +107,9 @@ export const Header: React.FC = () => {
             </ul>
           </div>
           <div className="flex-center gap-x-2">
-            {user?.email ? (
-              <ProfileCard user={user} />
+            {newData?.user?.userName ? (
+              // <h1>{`Welcome ${newData?.user?.userName}`}</h1>
+              <ProfileCard user={newData?.user} />
             ) : (
               <button
                 type="button"

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import { UserProfile } from "@auth0/nextjs-auth0/client";
+import { useCookies } from "next-client-cookies";
 import Link from "next/link";
 import { type FC, forwardRef } from "react";
 
@@ -44,6 +45,13 @@ interface IProfileCard {
 }
 
 export const ProfileCard: FC<IProfileCard> = ({ user }) => {
+
+  const cookieStore = useCookies();
+  const handleLogout = () => {
+    localStorage.removeItem("userData");
+    cookieStore.set('auth-token', '', { expires: new Date(0) });
+  };
+
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -68,7 +76,7 @@ export const ProfileCard: FC<IProfileCard> = ({ user }) => {
             <ul className="w-36 text-center">
               <ListItem title="Profile" className="px-6" href="/" />
               <ListItem title="Setting" className="px-6" href="/" />
-              <Link href="/api/auth/logout">
+              <Link onClick={handleLogout} href="">
                 <ListItem title="Logout" className="px-6" href="/" />
               </Link>
             </ul>

@@ -8,6 +8,8 @@ import { instance } from "@/lib/axiosInstance";
 import { useRouter } from "next/navigation";
 import { useCookies } from "next-client-cookies";
 
+
+
 interface PROPS {
   children: React.ReactNode;
 }
@@ -24,15 +26,16 @@ const AuthProvider: React.FC<PROPS> = ({ children }) => {
     password: "",
     orders: [],
   });
-
-  const getUser = () => {
+   const getUser = () => {
     try {
       const res = cookieStore.get("auth-token");
       console.log(JSON.parse(res!));
+      localStorage.setItem("userData", JSON.stringify(res!));
     } catch (error) {
       console.log("error", error);
     }
   };
+
 
   useEffect(() => {
     getUser();

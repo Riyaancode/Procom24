@@ -2,7 +2,7 @@
 
 import { Typography } from "@/components/Typography";
 import Image from "next/image";
-import Graph from "../../../../public/assets/graph.png";
+// import Graph from "../../../../public/assets/graph.png";
 
 import { Bar, Doughnut } from "react-chartjs-2";
 import {

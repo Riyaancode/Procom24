@@ -8,6 +8,9 @@ import { Input } from "@/components/input";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useRouter } from "next/navigation"
+import { useState } from "react";
+import Modal from "@/app/(components)/Modal";
+import Image from "next/image";
 export default function Payments() {
   const {
     control,
@@ -29,6 +32,9 @@ export default function Payments() {
 
   const router = useRouter()
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalImage, setModalImage] = useState("");
+
   const submitHandler = (data: IPayment) => {
     const config = {
       headers: {
@@ -40,8 +46,9 @@ export default function Payments() {
 
     axios.post('https://dev-zindabhag.mooo.com/api/orders/create', newData, config)
       .then((res) => {
-        console.log("res", res.data);
-        router.push('/home')
+        console.log("res", res.data.qrCode);
+        setModalImage(res?.data?.qrCode);
+        setIsModalOpen(true);
         resetForm();
       })
       .catch((error) => {
@@ -67,6 +74,11 @@ export default function Payments() {
       <Typography variant="heading" color="secondary" className="text-center">
         Payment Request
       </Typography>
+
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <Image src={modalImage} width={250} height={250} alt="qrcode" />
+      </Modal>
+
 
       <div className="border rounded-lg  mt-7 px-5 py-8">
         <form className="gap-6 grid grid-cols-3">
