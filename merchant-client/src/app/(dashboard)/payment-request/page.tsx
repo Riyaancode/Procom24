@@ -3,15 +3,17 @@
 import { Typography } from "@/components/Typography";
 import { Controller, useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { IPayment, ISignIn } from "@/types/interface";
+import { IPayment, ISignIn, PaymentStatus } from "@/types/interface";
 import { Input } from "@/components/input";
 import { Button } from "@/components/ui/button";
-
+import axios from "axios";
+import { useRouter } from "next/navigation"
 export default function Payments() {
   const {
     control,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm<IPayment>({
     defaultValues: {
       userName: "",
@@ -21,12 +23,44 @@ export default function Payments() {
       merchantAccountNumber: "",
       bankName: "",
       paymentPurpose: "",
+      status: PaymentStatus.PENDING
     },
   });
 
+  const router = useRouter()
+
   const submitHandler = (data: IPayment) => {
-    console.log("ds", data);
+    const config = {
+      headers: {
+        'Authorization': `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWU4Y2UyN2VlY2E2Njc1OGJiMDcyZWEiLCJ1c2VyRW1haWwiOiJtYmFiYXJ3YXNlZW0rMUBnbWFpbC5jb20iLCJ1c2VyTmFtZSI6IlVzZXJObzEiLCJhY2NvdW50Tm8iOiIxMjM0NTY3ODkwIiwicGhvbmVObyI6IjAzMTExMTExMTExIiwiaWF0IjoxNzA5NzU2NTgxLCJleHAiOjE3MDk3NjAxODF9.SIG5vOszVZdGeeFCAGTSa-XK6XzJ-jVuyPNvRMEjU4w`
+      }
+    };
+
+    const newData = { ...data, status: PaymentStatus.PENDING };
+
+    axios.post('https://dev-zindabhag.mooo.com/api/orders/create', newData, config)
+      .then((res) => {
+        console.log("res", res.data);
+        router.push('/home')
+        resetForm();
+      })
+      .catch((error) => {
+        console.log("Error while request", error);
+      });
   };
+
+  const resetForm = () => {
+    reset({
+      userName: "",
+      email: "",
+      paymentAmount: 0,
+      customerAccountNumber: "",
+      merchantAccountNumber: "",
+      bankName: "",
+      paymentPurpose: "",
+    });
+  };
+
 
   return (
     <main className="px-4 py-10">

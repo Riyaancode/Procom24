@@ -24,16 +24,16 @@ export const SIDEBAR = [
   {
     name: "Payment Request",
     icon: GrDocumentText,
-    routeName: "/home",
+    routeName: "/payment-request",
   },
   {
     name: "Report",
     icon: TfiReceipt,
-    routeName: "/home",
+    routeName: "",
   },
   {
     name: "Settings",
     icon: LuSettings,
-    routeName: "/home",
+    routeName: "",
   },
 ];

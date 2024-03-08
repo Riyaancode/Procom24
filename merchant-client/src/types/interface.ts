@@ -17,7 +17,7 @@ export interface ISignIn {
   password: string;
 }
 
-enum PaymentStatus {
+export enum PaymentStatus {
   PENDING = "pending",
   SUCCEEDED = "succeeded",
   REJECTED = "rejected",
